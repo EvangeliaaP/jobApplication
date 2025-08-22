@@ -1,43 +1,61 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.UserDTO;
+import com.example.demo.dto.UserPrincipal;
 import com.example.demo.entity.User;
+import com.example.demo.enumeration.RoleEnum;
 import com.example.demo.repository.UserRepository;
+import com.sun.jdi.request.DuplicateRequestException;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 public class UserService {
 
     private final UserRepository userRepository;
 
-    private final ModelMapper mapper;
+    private final BCryptPasswordEncoder encoder;
 
-    public UserService(UserRepository repository, ModelMapper mapper){
+    private final AuthenticationManager authenticationManager;
+
+    private final JwtService jwtService;
+
+    public UserService(UserRepository repository, ModelMapper mapper, AuthenticationManager authenticationManager, JwtService jwtService) {
         this.userRepository = repository;
-        this.mapper = mapper;
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
+        this.encoder = new BCryptPasswordEncoder(12);
     }
 
-    public List<UserDTO> getAllUsers(){
-        return this.userRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
+    @Transactional
+    public void register(UserDTO userDTO) {
+        Optional<User> existingUser = Optional.ofNullable(this.userRepository.findByUsername(userDTO.getUsername()));
+        if (existingUser.isPresent()) {
+            throw new DuplicateRequestException(String.format("User with username '%s' already exists.", userDTO.getUsername()));
+        }
+        String password = encoder.encode(userDTO.getPassword());
+        User user = new User(userDTO.getUsername(), password, userDTO.getEmail(), RoleEnum.USER);
+        userRepository.save(user);
     }
 
-    public void createUser(UserDTO userDTO){
-        this.userRepository.save(this.convertToEntity(userDTO));
+    public String verify(UserDTO user) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+        if (authentication.isAuthenticated()) {
+            return jwtService.generateToken((UserDetails) authentication.getPrincipal());
+        }
+        return "Fail";
     }
 
-    private UserDTO convertToDTO(User user){
-        return this.mapper.map(user, UserDTO.class);
-    }
-
-    private User convertToEntity(UserDTO userDTO){
-        return this.mapper.map(userDTO, User.class);
-    }
-
-    public UserRepository getUserRepository() {
-        return userRepository;
+    public void createUser(UserPrincipal userPrincipal) {
     }
 }

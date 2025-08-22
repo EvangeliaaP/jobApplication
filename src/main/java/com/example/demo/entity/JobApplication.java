@@ -22,11 +22,7 @@ public class JobApplication {
 
     private Long userId;
 
-    public JobApplication(){
-
-    }
-
-    public JobApplication(Long id, String jobTitle, String companyName, String status, Date dateApplied, Long userId){
+    public JobApplication(Long id, String jobTitle, String companyName, String status, Date dateApplied, Long userId) {
         this.id = id;
         this.companyName = companyName;
         this.status = status;
@@ -34,19 +30,19 @@ public class JobApplication {
         this.userId = userId;
     }
 
-    public String getJobTitle(){
+    public String getJobTitle() {
         return this.jobTitle;
     }
 
-    public String getCompanyName(){
+    public String getCompanyName() {
         return this.companyName;
     }
 
-    public String getStatus(){
+    public String getStatus() {
         return this.status;
     }
 
-    public Date getDateApplied(){
+    public Date getDateApplied() {
         return this.dateApplied;
     }
 

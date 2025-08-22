@@ -1,6 +1,8 @@
 package com.example.demo.entity;
 
+import com.example.demo.enumeration.RoleEnum;
 import jakarta.persistence.*;
+import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "Users")
@@ -11,41 +13,62 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    private String name;
+    @Column(nullable = false, unique = true)
+    private String username;
 
+    @NotBlank(message = "Password cannot be blank")
+    private String password;
+
+    @NotBlank(message = "Email cannot be blank")
     private String email;
 
-    private User(){
+    @Column(nullable = false)
+    private RoleEnum role;
+
+    private User() {
 
     }
 
-    private User(Long id, String name, String email){
-        this.id = id;
-        this.name = name;
+    public User(String username, String password, String email, RoleEnum role) {
+        this.username = username;
+        this.password = password;
         this.email = email;
+        this.role = role;
     }
 
-    public Long getId(){
-        return this.id;
+    public String getUsername() {
+        return username;
     }
 
-    public String getName(){
-        return this.name;
+    public String getPassword() {
+        return password;
     }
 
-    public String getEmail(){
-        return this.email;
+    public Long getId() {
+        return id;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public RoleEnum getRole() {
+        return role;
     }
 
-    public void setName(String name){
-        this.name = name;
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
