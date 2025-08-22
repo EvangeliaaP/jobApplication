@@ -16,11 +16,9 @@ public class JobApplicationDTO {
 
     private Long userId;
 
-    public JobApplicationDTO(){
+    public JobApplicationDTO() {
 
     }
-
-
 
     public Long getId() {
         return id;
@@ -66,7 +64,7 @@ public class JobApplicationDTO {
         return this.userId;
     }
 
-    public void setUserId(){
+    public void setUserId() {
         this.userId = userId;
     }
 }

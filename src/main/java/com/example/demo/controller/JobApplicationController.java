@@ -1,9 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.JobApplicationDTO;
-import com.example.demo.dto.UserDTO;
+import com.example.demo.dto.UserPrincipal;
 import com.example.demo.service.JobApplicationService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +17,7 @@ public class JobApplicationController {
     }
 
     @GetMapping("jobApplications")
-    public ResponseEntity<JobApplicationDTO[]> getJobApplication(@RequestParam("user") UserDTO user){
+    public ResponseEntity<JobApplicationDTO[]> getJobApplication(@RequestParam("user") UserPrincipal user){
         return ResponseEntity.ok(this.jobApplicationService.getJobApplications());
     }
 
