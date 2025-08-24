@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 public class UserController {
 
@@ -29,5 +28,4 @@ public class UserController {
     public ResponseEntity<JwtResponse> login(@RequestBody UserDTO user) {
         return ResponseEntity.ok(new JwtResponse(userService.verify(user)));
     }
-
 }

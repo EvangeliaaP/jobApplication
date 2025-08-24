@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.UserDTO;
-import com.example.demo.dto.UserPrincipal;
 import com.example.demo.entity.User;
 import com.example.demo.enumeration.RoleEnum;
 import com.example.demo.repository.UserRepository;
@@ -54,8 +53,5 @@ public class UserService {
             return jwtService.generateToken((UserDetails) authentication.getPrincipal());
         }
         return "Fail";
-    }
-
-    public void createUser(UserPrincipal userPrincipal) {
     }
 }

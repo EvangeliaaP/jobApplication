@@ -4,6 +4,21 @@ package com.example.demo.dto;
 import com.example.demo.enumeration.RoleEnum;
 
 public class UserDTO {
+    private Long id;
+
+    private String username;
+
+    private String password;
+
+    private String email;
+
+    private RoleEnum role;
+
+    private UserDTO(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
 
     public Long getId() {
         return id;
@@ -43,21 +58,5 @@ public class UserDTO {
 
     public void setRole(RoleEnum role) {
         this.role = role;
-    }
-
-    private Long id;
-
-    private String username;
-
-    private String password;
-
-    private String email;
-
-    private RoleEnum role;
-
-    private UserDTO(String username, String password, String email) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
     }
 }
