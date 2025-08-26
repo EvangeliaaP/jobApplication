@@ -2,11 +2,12 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "JobApplications")
-public class JobApplication {
+public class JobApplication implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,12 +23,19 @@ public class JobApplication {
 
     private Long userId;
 
-    public JobApplication(Long id, String jobTitle, String companyName, String status, Date dateApplied, Long userId) {
+    private String notes;
+
+    public JobApplication() {
+
+    }
+
+    public JobApplication(Long id, String jobTitle, String companyName, String status, Date dateApplied, Long userId, String notes) {
         this.id = id;
         this.companyName = companyName;
         this.status = status;
         this.dateApplied = dateApplied;
         this.userId = userId;
+        this.notes = notes;
     }
 
     public String getJobTitle() {
@@ -64,5 +72,13 @@ public class JobApplication {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 }
