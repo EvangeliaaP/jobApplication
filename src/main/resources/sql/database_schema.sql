@@ -12,7 +12,8 @@ CREATE TABLE JobApplications (
     companyName VARCHAR(255),
     status VARCHAR(255),
     dateApplied DATE,
+    notes VARCHAR(255),
     user_id BIGINT NOT NULL,
-    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 

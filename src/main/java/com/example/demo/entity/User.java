@@ -4,8 +4,12 @@ import com.example.demo.enumeration.RoleEnum;
 import jakarta.persistence.*;
 import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 @Entity
-@Table(name = "Users")
+@Table(name = "users")
 public class User {
 
     @Id
@@ -17,9 +21,12 @@ public class User {
     private String username;
 
     @NotBlank(message = "Password cannot be blank")
+    @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
 
     @NotBlank(message = "Email cannot be blank")
+    @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",
+            flags = Pattern.Flag.CASE_INSENSITIVE)
     private String email;
 
     @Column(nullable = false)
