@@ -2,14 +2,18 @@ package com.example.demo.entity;
 
 import com.example.demo.enumeration.RoleEnum;
 import jakarta.persistence.*;
-import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
+@Data
 @Entity
 @Table(name = "users")
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -22,6 +26,8 @@ public class User {
 
     @NotBlank(message = "Password cannot be blank")
     @Size(min = 8, message = "Password must be at least 8 characters long")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\\\S+$).{8,20}$",
+            message = "Password is not valid.")
     private String password;
 
     @NotBlank(message = "Email cannot be blank")
@@ -33,50 +39,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
 
-    private User() {
-
-    }
-
     public User(String username, String password, String email, RoleEnum role) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public RoleEnum getRole() {
-        return role;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }
