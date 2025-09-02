@@ -10,7 +10,7 @@ import java.util.Collections;
 
 public class UserPrincipal implements UserDetails {
 
-    public User user;
+    private User user;
 
     public UserPrincipal(User user) {
         this.user = user;
@@ -51,7 +51,8 @@ public class UserPrincipal implements UserDetails {
         return UserDetails.super.isEnabled();
     }
 
-    public void setPassword(String encode) {
+    public User getUser() {
+        return this.user;
     }
 
     public String getEmail() {

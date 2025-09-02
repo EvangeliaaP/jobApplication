@@ -3,8 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.dto.JobApplicationDTO;
 import com.example.demo.dto.UserPrincipal;
 import com.example.demo.service.JobApplicationService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
@@ -30,24 +30,18 @@ public class JobApplicationController {
         return ResponseEntity.ok(this.jobApplicationService.getJobApplications(authentication));
     }
 
+    @PreAuthorize("hasRole('USER'")
     @PostMapping("createJobApplication")
     public ResponseEntity<Void> createJobApplication(@RequestBody @Valid JobApplicationDTO jobApplicationDTO,
                                                      @AuthenticationPrincipal UserPrincipal userPrincipal, BindingResult result) {
-        if (result.hasErrors()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
         this.jobApplicationService.createJobApplication(jobApplicationDTO, userPrincipal);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("updateApplicationStatus")
-    public ResponseEntity<Void> updateJobApplicationStatus(@RequestBody JobApplicationDTO jobApplicationDTO,
-                                                           @AuthenticationPrincipal UserPrincipal principal, BindingResult result) {
-        if (result.hasErrors()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+    @PostMapping("updateApplication")
+    public ResponseEntity<Void> updateJobApplication(@Valid @RequestBody JobApplicationDTO jobApplicationDTO,
+                                                     @AuthenticationPrincipal UserPrincipal principal, BindingResult result) {
         this.jobApplicationService.updateJobApplicationStatus(jobApplicationDTO, principal);
         return ResponseEntity.ok().build();
     }
-
 }

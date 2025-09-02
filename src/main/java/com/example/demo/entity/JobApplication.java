@@ -1,10 +1,12 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 
+@Data
 @Entity
 @Table(name = "JobApplications")
 public class JobApplication implements Serializable {
@@ -31,54 +33,11 @@ public class JobApplication implements Serializable {
 
     public JobApplication(Long id, String jobTitle, String companyName, String status, Date dateApplied, Long userId, String notes) {
         this.id = id;
+        this.jobTitle = jobTitle;
         this.companyName = companyName;
         this.status = status;
         this.dateApplied = dateApplied;
         this.userId = userId;
         this.notes = notes;
-    }
-
-    public String getJobTitle() {
-        return this.jobTitle;
-    }
-
-    public String getCompanyName() {
-        return this.companyName;
-    }
-
-    public String getStatus() {
-        return this.status;
-    }
-
-    public Date getDateApplied() {
-        return this.dateApplied;
-    }
-
-    public void setJobTitle(String jobTitle) {
-        this.jobTitle = jobTitle;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setDateApplied(Date dateApplied) {
-        this.dateApplied = dateApplied;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public Long getUserId() {
-        return userId;
     }
 }

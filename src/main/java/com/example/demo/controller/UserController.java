@@ -2,12 +2,15 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.JwtResponse;
 import com.example.demo.dto.UserDTO;
+import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 public class UserController {
@@ -19,13 +22,13 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Void> register(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<Void> register(@Valid @RequestBody UserDTO userDTO) {
         userService.register(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("login")
-    public ResponseEntity<JwtResponse> login(@RequestBody UserDTO user) {
+    public ResponseEntity<JwtResponse> login(@Valid @RequestBody UserDTO user) throws UserNotFoundException {
         return ResponseEntity.ok(new JwtResponse(userService.verify(user)));
     }
 }
