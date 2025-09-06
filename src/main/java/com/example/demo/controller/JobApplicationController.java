@@ -30,7 +30,7 @@ public class JobApplicationController {
         return ResponseEntity.ok(this.jobApplicationService.getJobApplications(authentication));
     }
 
-    @PreAuthorize("hasRole('USER'")
+    @PreAuthorize("hasRole('USER') and !hasRole('ADMIN')")
     @PostMapping("createJobApplication")
     public ResponseEntity<Void> createJobApplication(@RequestBody @Valid JobApplicationDTO jobApplicationDTO,
                                                      @AuthenticationPrincipal UserPrincipal userPrincipal, BindingResult result) {
